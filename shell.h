@@ -52,7 +52,19 @@ typedef struct LIstNode
  * @arg: arguments
  * @sep_buff: address of pointer for chain
  * @sep_buff_kind: command buffer
+ * @status: shows status of last command
+ * @fd_read: file descriptitor that reads input
+ * @lc_flag: flag for line input
+ * @env: environment vars. in a linked list
+ * @environ: environ
+ * @lines: errors
+ * @error_code: exits the error
+ * @prog_name: file name
+ * @alias: command alias node
+ * @hist_lines: lines contructed in history
+ * @history: command history node
  */
+
 typedef struct InfoNode
 {
 	char *arg;
@@ -61,6 +73,19 @@ typedef struct InfoNode
 	int argc;
 	char **sep_buff;
 	int sep_buff_kind;
+	size_t lines;
+	int error_code;
+	int lc_flag;
+	char *prog_name;
+	list_s *env;
+	list_s *alias;
+	char **environ;
+	int env_changed;
+	int status;
+	list_s *history;
+	int fd_read;
+	int hist_lines;
+
 }info_s;
 
 /**
@@ -92,6 +117,34 @@ void create_process(info_s *info);
 int handle_builtin(info_s * info);
 void check_command(info_s *info);
 int main(int argc, char **argv);
+int write_chars(char *str, int fd);
+int _isalpha(int);
+int _atoi(char *);
+int err_num(char *);
+int handle_exit(info_s *);
+int handle_cd(info_s *);
+int handle_help(info_s *);
+int handle_history(info_s *);
+int handle_alias(info_s *);
+int _getline(info_s *, char **, size_t *);
+int _printenv(info_s *);
+int check_setenv(info_s *);
+int check_unsetenv(info_s *);
+int _unsetenv(info_s *,char *);
+void puts_err(char *);
+char *strcat(char *, char *);
+char *_strcpy(char *, char *);
+char *_strncpy(char *, char *, int);
+char *_strncat(char *, char *, int);
+char *_strchr(char *, char);
+char *_memset(char *, char, unsigned int);
+list_s *add_node_start(list_s **head, const char *str, int num);
+list_s *node_str_start(list_s *,char *, char);
+list_s *node_str_start(list_s *,char *, char);
+size_t print_list_str(const list_s*);
+size_t listlen(const list_s *);
+ssize_t get_input(info_s *);
+ssize_t get _node_index(list_s *, list_s *);
 
 #endif
 
